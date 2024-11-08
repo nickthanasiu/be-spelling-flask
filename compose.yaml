@@ -1,0 +1,24 @@
+services:
+  server:
+    build:
+      context: .
+    container_name: flask-server
+    command: python3 -m flask run --host=0.0.0.0 --port=5000 --debug
+    ports:
+      - 5000:5000
+    env_file:
+      - .env
+    environment:
+      - MONGODB_USER=${MONGODB_USER}
+      - MONGODB_PASSWORD=${MONGODB_PASSWORD}
+      - FLASK_ENV=${FLASK_ENV}
+    volumes:
+      - ./:/app
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+
