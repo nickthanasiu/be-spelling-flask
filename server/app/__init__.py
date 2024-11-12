@@ -2,7 +2,6 @@ from flask import Flask, render_template
 from app.config import config_obj
 from app.db import connect_to_db
 from app.puzzles import PuzzlesService
-from bson import json_util
 from flask_cors import CORS
 
 # App config
@@ -27,8 +26,3 @@ def index():
 def get_puzzles():
     puzzles = puzzles_service.find()
     return puzzles
-
-@app.route("/pets")
-def get_pets():
-    pets = db_connection.pets.find()
-    return json_util.dumps(pets)
