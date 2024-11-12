@@ -2,11 +2,14 @@ from flask import Flask, render_template
 from app.config import config_obj
 from app.db import connect_to_db
 from app.puzzles import PuzzlesService
+from bson import json_util
+from flask_cors import CORS
 
 # App config
-static_folder = '../../client/dist/assets'
-template_folder = '../../client/dist'
+static_folder = '../static'
+template_folder = '../static'
 app = Flask(__name__, static_url_path='', static_folder=static_folder, template_folder=template_folder)
+CORS(app)
 app.config.from_object(config_obj)
 
 # Database config
@@ -24,3 +27,8 @@ def index():
 def get_puzzles():
     puzzles = puzzles_service.find()
     return puzzles
+
+@app.route("/pets")
+def get_pets():
+    pets = db_connection.pets.find()
+    return json_util.dumps(pets)

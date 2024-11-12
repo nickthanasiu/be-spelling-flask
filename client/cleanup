@@ -1,3 +1,0 @@
-echo "Removing build files..."
-rm -rf dist node_modules package-lock.json
-echo "Finished removing build files"
