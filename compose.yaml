@@ -37,9 +37,9 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - be_spelling_data:/data/db
-
+      - ./db/:/docker-entrypoint-initdb.d/
+      - data:/data/db
 volumes:
   node_modules:
   static_files:
-  be_spelling_data:
+  data:

@@ -1,30 +1,37 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
-function App() {
+interface Puzzle {
+  letters:      string[];
+  centerLetter: string;
+  date:         any;
+}
 
-  const [data, setData] = useState([]);
+function App() {
+  const [puzzles, setPuzzles] = useState<Puzzle[]>();
 
   useEffect(() => {
-    async function getPets() {
+    (async function() {
       const response = await fetch('http://localhost:5000/puzzles');
-      const data = await response.json();
-      setData(data);
-    }
-
-    getPets();
+      const _puzzles: Puzzle[] = await response.json();
+      setPuzzles(_puzzles);
+    })()
   }, []);
 
-  if (!data) return 'Loading...';
-
+  if (!puzzles) return 'Loading...';
+  
   return (
     <>
       <h1>Be Spelling</h1>
       <ul>
-        {!data.length
+        {!puzzles.length
           ? <p>No puzzles yet</p>
-          : data.map((_, i) => 
-            <li>Puzzle #{i+1}</li>
+          : puzzles.map(p => 
+            <li>
+
+              <p>Center Letter: {p.centerLetter}</p>
+              <p>Letters: {p.letters.map(l => l).join(', ')}</p>
+            </li>
         )}
       </ul>
     </>
